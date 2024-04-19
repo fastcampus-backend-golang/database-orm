@@ -43,8 +43,7 @@ func main() {
 			},
 		},
 	}
-	result := db.Create(&pendudukInsert)
-	if result.Error != nil {
+	if result := db.Create(&pendudukInsert); result.Error != nil {
 		fmt.Printf("Gagal mengisi tabel: %v\n", result.Error)
 		os.Exit(1)
 	}

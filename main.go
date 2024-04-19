@@ -90,12 +90,16 @@ func main() {
 	// 8 - transaction
 
 	db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Exec("DELETE FROM produk WHERE id = ?", "a").Error; err != nil {
-			// return error akan memanggil rollback
-			return err
-		}
+		if result := tx.Delete(&Produk{ID: 1}); result.Error != nil {
+			fmt.Printf("Transaction gagal: %v\n", result.Error)
 
-		// return nil akan memanggil Commit
-		return nil
+			// return error akan memanggil rollback
+			return result.Error
+		} else {
+			fmt.Println("Transaction berhasil")
+
+			// return nil akan memanggil commit
+			return nil
+		}
 	})
 }
